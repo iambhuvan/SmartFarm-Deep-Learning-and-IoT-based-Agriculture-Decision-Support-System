@@ -1,0 +1,88 @@
+body {
+    background-color: #f5f5f5;
+    color: #ecf0f1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('../images/sf.jpeg');
+    background-size: cover; /* This ensures the image covers the entire background */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+header {
+    background-color: green;
+    color: white;
+    padding: 25px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: Helvetica;
+    /* text-decoration: underline; */
+}
+
+section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+
+footer {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-weight: bold;
+    font-family: Helvetica;
+    /* text-decoration: underline; */
+}
+section{
+    text-align: center;
+    display:contents;
+    /* flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px; */
+
+}
+.result {
+    text-align: center;
+    margin-top: 20px; /* Adjust the margin as needed */
+    /* display: block; */
+    color: white;
+    /* background-color: #e7e5e4; */
+    letter-spacing: .15em;
+    font-size: 50px;
+    text-shadow: 
+    1px -1px 0 #767676, 
+    -1px 2px 1px #9d9b9b, 
+    -2px 4px 1px #b5adad, 
+    -3px 6px 1px #b5b2b2;
+
+
+  }
+
+  .Home {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    background-color: #5287aa; /* Choose your desired background color */
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff; /* Choose your desired text color */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Home:hover {
+    background-color: #2980b9; /* Choose your desired background color on hover */
+}

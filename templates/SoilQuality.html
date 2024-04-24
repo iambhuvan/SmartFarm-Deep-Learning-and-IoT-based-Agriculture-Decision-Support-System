@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soi Quqlity</title>
+    <link rel="stylesheet" href="../static/css/Dash.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script type="text/javascript" src="../static/js/GaugeMeter.js"></script>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/">
+            <button class="Home">Home</button>
+        </a>
+        Smart Farm
+        <button class="check" onclick="Check(this)">Check</button>
+    </header>
+    <section>
+
+        <form id="myForm">
+            <div class="card-container">
+                <div class="card">
+                    <div class="Preview">
+                        <div class="GaugeMeter" id="Soil" data-append="%" data-bind="gaugeValue: Percent"
+                            data-size="200" data-theme="White" data-width="15" data-style="Arch"
+                            data-label="Soil Moisture" data-animationstep="0"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="Preview">
+                        <div class="GaugeMeter" id="Temp" data-append="C" data-bind="gaugeValue: Percent"
+                            data-size="200" data-theme="White" data-width="15" data-style="Arch"
+                            data-label="Temperature" data-animationstep="0"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="Preview">
+                        <div class="GaugeMeter" id="Humi" data-append="%" data-bind="gaugeValue: Percent"
+                            data-size="200" data-theme="White" data-width="15" data-style="Arch" data-label="Humidity"
+                            data-animationstep="0"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="length range__slider" data-min="0" data-max="400">
+                        <div class="length__title field-title" id="TN" data-length="0">N:</div>
+                        <input class="slider" id="N" name="N" type="range" min="0" max="400" value="0"
+                            oninput="showVal(this)" />
+                    </div>
+                    <div class="length range__slider" data-min="0" data-max="150">
+                        <div class="length__title field-title" id="TP" data-length="0">P:</div>
+                        <input class="slider" id="P" name="P" type="range" min="0" max="150" value="0"
+                            oninput="showVal(this)" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="length range__slider" data-min="0" data-max="900">
+                        <div class="length__title field-title" id="TK" data-length="0">K:</div>
+                        <input class="slider" id="K" name="K" type="range" min="0" max="900" value="0"
+                            oninput="showVal(this)" />
+                    </div>
+                    <div class="length range__slider" data-min="0" data-max="15">
+                        <div class="length__title field-title" id="TPH" data-length="0">PH:</div>
+                        <input class="slider" id="PH" name="PH" type="range" min="0" max="15" value="0"
+                            oninput="showVal(this)" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <h1 class="result" id="Res"></h1>
+        <a href="" id="URLS">
+            <button class="check" id="next" style="display: none;">SeedQuality</button>
+        </a>
+
+
+        <!-- <div class="card">
+                <img src="image2.jpg" alt="Card Image">
+                <div class="card-content">
+                    <h3>Card Title 2</h3>
+                    <p>This is some sample text for Card 2.</p>
+                    <a href="#">Read More</a>
+                </div>
+            </div> -->
+
+        <!-- Add more cards as needed -->
+
+
+    </section>
+    <footer>
+        Soil Quality
+    </footer>
+    <script>
+        // $(document).ready(function () {
+        //     $(".GaugeMeter").gaugeMeter();
+        //     $("#Temp").gaugeMeter({ percent: 21 });
+        //     $("#Humi").gaugeMeter({ percent: 50 });
+        //     $("#Soil").gaugeMeter({ percent: 0 });
+
+        // });
+
+        function showVal(e) {
+            var id = "T" + e.id;
+            var v = e.value;
+            var T = document.getElementById(id);
+            T.setAttribute("data-length", v);
+
+        }
+        function Check(b) {
+            
+
+            var dataToSend = {
+                "soil": $("#Soil")[0].getElementsByTagName("output")[0].innerHTML,
+                "temp": $("#Temp")[0].getElementsByTagName("output")[0].innerHTML,
+                "humi": $("#Humi")[0].getElementsByTagName("output")[0].innerHTML,
+                "N": $("#TN")[0].getAttribute("data-length"),
+                "P": $("#TP")[0].getAttribute("data-length"),
+                "K": $("#TK")[0].getAttribute("data-length"),
+                "PH": $("#TPH")[0].getAttribute("data-length"),
+            };
+            // console.log(data);
+            fetch('/CheckSoil', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data["D"]);
+                    var pam1 = data["S"];
+                    var pam2 = data["C"];
+                    document.getElementById("Res").innerHTML = pam1;
+                    var URLS = document.getElementById("URLS");
+                    console.log(pam1);
+                    if(pam1 != "Inaccurate Soil Information"){
+                    b.style.display = "none";
+                    var n = document.getElementById('next');
+                    n.style.display = "block";
+                    URLS.href = '/CheckSeed?param1=' + pam1 + "&param2=" + pam2;
+                }
+
+
+                })
+                .catch((error) => { console.error('Error:', error); });
+        }
+
+
+    </script>
+    <script>
+        $("#Temp").gaugeMeter({ percent: 0 });
+        $("#Humi").gaugeMeter({ percent: 0 });
+        $("#Soil").gaugeMeter({ percent: 0 });
+        setInterval(function load() {
+
+            var ft = fetch('/GetSensor', {
+                method: 'POST', // or 'PUT'
+                body: "post"
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data);
+                    var T = data["T"];
+                    var H = data["H"];
+                    var S = data["S"];
+                    // $(".GaugeMeter").gaugeMeter();
+                    $("#Temp").gaugeMeter({ percent: T });
+                    $("#Humi").gaugeMeter({ percent: H });
+                    $("#Soil").gaugeMeter({ percent: S });
+
+                })
+                .catch((error) => {
+                    console.error("error");
+                });
+        }
+            , 2000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Web Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .gauge-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .gauge-wrapper {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .gauge {
+            width: 200px;
+            height: 150px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+    <!-- Add the Raphael library script tag first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+
+    <!-- Then, add the JustGage library script tag -->
+    <script src="https://cdn.jsdelivr.net/gh/toorshia/justgage@1.4.0/dist/justgage.min.js"></script>
+
+    <script>
+        // Function to initialize gauges
+        function initializeGauges(sensorData) {
+            // Soil Moisture Gauge
+            createGauge("soilGauge", "Soil Moisture", sensorData.Soil, 0, 100, "%");
+
+            // DHT11 Temperature Gauge
+            createGauge("temperatureGauge", "Temperature", sensorData.Temp, 0, 50, "°C");
+
+            // Humidity Gauge
+            createGauge("humidityGauge", "Humidity", sensorData.Humi, 0, 100, "%");
+
+            // Nitrogen (N) Gauge
+            createGauge("nitrogenGauge", "Nitrogen", sensorData.N, 0, 100, "%");
+
+            // Phosphorus (P) Gauge
+            createGauge("phosphorusGauge", "Phosphorus", sensorData.P, 0, 100, "%");
+
+            // Potassium (K) Gauge
+            createGauge("potassiumGauge", "Potassium", sensorData.K, 0, 100, "%");
+
+            // pH Gauge
+            createGauge("phGauge", "pH Level", sensorData.PH, 0, 14, "");
+        }
+
+        // Function to create gauge with title
+        function createGauge(id, title, value, min, max, label) {
+            var wrapper = document.getElementById(id + "-wrapper");
+            wrapper.innerHTML = "<h3>" + title + "</h3><div id='" + id + "' class='gauge'></div>";
+
+            var gauge = new JustGage({
+                id: id,
+                value: value,
+                min: min,
+                max: max,
+                title: title,
+                label: label
+            });
+        }
+
+        // Function to update sensor data via AJAX
+        function updateSensorData() {
+            // Make an AJAX request to the Flask server
+            fetch('/GetSensor', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update gauges with new sensor data
+                initializeGauges(data);
+            })
+            .catch(error => {
+                console.error('Error fetching sensor data:', error);
+            });
+        }
+
+        // Initialize gauges on window load
+        window.onload = function () {
+            // Initial setup with dummy data
+            initializeGauges({
+                "Soil": 50,
+                "Temp": 25,
+                "Humi": 60,
+                "N": 30,
+                "P": 40,
+                "K": 50,
+                "PH": 7,
+            });
+
+            // Periodically update sensor data (you may adjust the interval as needed)
+            setInterval(updateSensorData, 5000); // Update every 5 seconds
+        };
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>IoT Web Design</h1>
+    </header>
+
+    <section>
+        <div class="container">
+            <h2>IoT Sensors</h2>
+
+            <!-- Gauges Container -->
+            <div class="gauge-container">
+                <div id="soilGauge-wrapper" class="gauge-wrapper"></div>
+                <!-- <div id="temperatureGauge-wrapper" class="gauge-wrapper"></div>
+                <div id="humidityGauge-wrapper" class="gauge-wrapper"></div>
+                <div id="nitrogenGauge-wrapper" class="gauge-wrapper"></div>
+                <div id="phosphorusGauge-wrapper" class="gauge-wrapper"></div>
+                <div id="potassiumGauge-wrapper" class="gauge-wrapper"></div>
+                <div id="phGauge-wrapper" class="gauge-wrapper"></div> -->
+            </div>
+
+            <!-- Add information about sensors as needed -->
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 IoT Web Design</p>
+    </footer>
+
+</body>
+</html>

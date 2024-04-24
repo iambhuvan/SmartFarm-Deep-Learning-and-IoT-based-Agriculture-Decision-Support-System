@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Quality</title>
+    <link rel="stylesheet" href="../static/css/Dash.css">
+
+    <style>
+        /* CSS */
+        .button {
+            appearance: button;
+            background-color: #1899D6;
+            border: solid transparent;
+            border-radius: 16px;
+            border-width: 0 0 4px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: inline-block;
+            font-family: din-round, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            line-height: 20px;
+            margin: 0;
+            outline: none;
+            overflow: visible;
+            padding: 13px 16px;
+            text-align: center;
+            text-transform: uppercase;
+            touch-action: manipulation;
+            transform: translateZ(0);
+            transition: filter .2s;
+            user-select: none;
+            -webkit-user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+            width: 20%;
+        }
+
+        .button:after {
+            background-clip: padding-box;
+            background-color: #1CB0F6;
+            border: solid transparent;
+            border-radius: 16px;
+            border-width: 0 0 4px;
+            bottom: -4px;
+            content: "";
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+        .button:main,
+        .button:focus {
+            user-select: auto;
+        }
+
+        .button:hover:not(:disabled) {
+            filter: brightness(1.1);
+            -webkit-filter: brightness(1.1);
+        }
+
+        .button:disabled {
+            cursor: auto;
+        }
+
+        .button:active {
+            border-width: 4px 0 0;
+            background: none;
+        }
+
+        section {
+            text-align: center;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .button {
+                width: 80%;
+                /* Adjust the width for smaller screens */
+            }
+        }
+
+        h1 {
+            text-align: center;
+            padding: 16px;
+            margin: 0;
+            color: black;
+        }
+
+        .Res {
+            /* border: solid; */
+
+            width: 20%;
+            text-align: center;
+            margin: auto;
+            margin-top: 10%;
+            color: black;
+        }
+
+        .flip {
+            animation: 2s anim-popoutin;
+            transform: scale(2);
+            /* color: rgb(25, 201, 78); */
+            color: white;
+            opacity: 1;
+            text-shadow: 1px 0 0 rgba(0, 0, 0, 0);
+            /* background-color: greenyellow */
+            /* border: solid;
+            border-radius: 10px;
+            text-align: center; */
+        }
+
+
+        @keyframes anim-popoutin {
+            0% {
+                color: black;
+                transform: scale(0);
+                opacity: 0;
+                text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            }
+
+            25% {
+                color: red;
+                transform: scale(2);
+                opacity: 1;
+                text-shadow: 3px 10px 5px rgba(0, 0, 0, 0.5);
+            }
+
+            50% {
+                color: rgb(218, 196, 196);
+                transform: scale(1);
+                opacity: 1;
+                text-shadow: 1px 0 0 rgba(0, 0, 0, 0);
+            }
+
+            100% {
+                /* animate nothing to add pause at the end of animation */
+                transform: scale(2);
+                opacity: 1;
+                text-shadow: 1px 0 0 rgba(0, 0, 0, 0);
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+            border: 1.5px solid blue; 
+        }
+
+        /* tr:nth-child(even) {
+            background-color: #f2f2f2
+        } */
+
+        th {
+            /* background-color: #47685c; */
+            border-radius: 10px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/">
+            <button class="Home">Home</button>
+        </a>
+        Smart Farm
+    </header>
+    <section>
+
+        <div class="Res">
+            <!-- <h1 class="flip">{{ result | safe }}</h1> -->
+            <div class="flip">
+                {{ result | safe}}
+            </div>
+            
+        </div>
+
+
+    </section>
+    <footer>
+        YIELD
+    </footer>
+</body>
+
+</html>
